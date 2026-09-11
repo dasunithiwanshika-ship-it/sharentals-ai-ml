@@ -1,3 +1,19 @@
+# Project-specific local data and secrets
+.env
+.env.local
+.streamlit/secrets.toml
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.vscode/
+
+# Real operational data should never be committed
+input_data/
+data/
+output/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
