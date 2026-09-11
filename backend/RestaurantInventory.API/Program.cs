@@ -27,11 +27,22 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // JWT Settings
 // --------------------------------------------------
 
+var jwtSecretKey = builder.Configuration["Jwt:SecretKey"];
+
+if (string.IsNullOrWhiteSpace(jwtSecretKey) && builder.Environment.IsDevelopment())
+{
+    jwtSecretKey = "DevelopmentSecretKey_ChangeMe_1234567890!";
+}
+
+if (string.IsNullOrWhiteSpace(jwtSecretKey))
+{
+    throw new InvalidOperationException(
+        "JWT SecretKey is not configured.");
+}
+
 var jwtSettings = new JwtSettings
 {
-    SecretKey = builder.Configuration["Jwt:SecretKey"]
-        ?? throw new InvalidOperationException(
-            "JWT SecretKey is not configured."),
+    SecretKey = jwtSecretKey,
 
     Issuer = builder.Configuration["Jwt:Issuer"]
         ?? throw new InvalidOperationException(
